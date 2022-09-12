@@ -1,25 +1,49 @@
-import logo from './logo.svg';
+import React, { useCallback } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Header from './Pages/Components/Header/Header.jsx'
+
+import { Provider } from 'react-redux';
+import store from './Lib/store';
+import { routeData } from './Lib/Routes/RouteData'
+import PrivateRoutes from './Lib/Routes/PrivateRoutes'
+import PublicRoutes from './Lib/Routes/PublicRoutes'
+
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  
+
+  return <>
+<Provider store={store}>
+  <Router>
+    <Header />
+  
+          
+ 
+  <Routes>
+  {routeData.public.map((elem, index) => (
+            <Route key={index} path={elem.path} element={<PublicRoutes>{elem.element}</PublicRoutes>} />
+          ))}
+          {routeData.admin.map((elem, index) => (
+            <Route key={index} path={elem.path} element={<PrivateRoutes role="ADMIN">{elem.element}</PrivateRoutes>} />
+          ))}
+            {routeData.user.map((elem, index) => (
+            <Route key={index} path={elem.path} element={<PrivateRoutes role="USER">{elem.element}</PrivateRoutes>} />
+          ))}
+          {routeData.exposed.map((elem, index) => (
+            <Route key={index} path={elem.path} element={elem.element} />
+          ))}
+
+
+  </Routes>
+</Router>
+</Provider>
+</>
 }
 
 export default App;

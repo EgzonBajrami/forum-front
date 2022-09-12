@@ -1,0 +1,84 @@
+.subheader{
+    display:flex;
+    flex-direction:column;
+  
+   
+    width:90%;
+    margin-left:5%;
+    padding:0.2rem;
+}
+.subheader ul:hover{
+    background-color:white;
+}
+.subUl{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    
+}
+
+li{
+    margin-top:2%;
+}
+
+.subcontent{
+    display:flex;
+    flex-direction:column;
+    
+  
+    border-top:0.2rem solid gray;
+    border-bottom:0.2rem solid gray;
+    box-shadow: 0.2rem 0.2rem solid gray;
+    border-radius:0.2rem;
+    justify-content:space-evenly;
+   
+    background-color:#F5EDDC;
+    font-weight:bold;
+    width:90%;
+    margin-left:5%;
+    margin-top:0;
+}
+.info-post{
+    display:flex;
+    flex-direction:row;
+   
+    width:90%;
+    height:6vh;
+    color:black;
+    font-weight:bold;
+    left:0;
+   
+    margin-left:2%;
+    
+  
+    
+
+}
+.posts{
+    display:flex;
+    flex-direction:column;
+}
+.under-info{
+    display:flex;
+    flex-direction:row;
+    color:black;
+    width:90%;
+    left:0;
+   
+    margin-left:2%;
+
+}
+.add-post{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items:center;
+    width:fit-content;
+    margin-left:35%;
+    border:0.2rem solid black;
+    margin-bottom:2%;
+}
+.add-post:hover{
+    background-color:rgb(191, 187, 187);
+    cursor: pointer;
+}

@@ -1,0 +1,49 @@
+.subforum{
+    display:flex;
+    flex-direction:column;
+    
+    
+    
+  
+    border-top:0.2rem solid gray;
+    border-bottom:0.2rem solid gray;
+    box-shadow: 0.2rem 0.2rem solid gray;
+    border-radius:0.2rem;
+    justify-content: baseline;
+  
+  
+    background-color:#F5EDDC;
+   
+    
+    font-weight:bold;
+    text-transform:uppercase;
+    
+
+    
+  
+    
+}
+
+ul{  display:flex;
+    flex-direction:column;
+   
+  
+    
+    border-bottom:0.2rem solid white;
+    border-radius:0.2rem;
+    height:10%;
+    
+   
+    
+    margin-bottom:0;
+    list-style:none;
+}
+li{
+    margin-left:10%;
+}
+ul:hover{
+    background-color:#CFD2CF;
+}
+a{
+    color:white;
+}

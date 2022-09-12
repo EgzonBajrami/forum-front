@@ -1,0 +1,26 @@
+.place-form{
+    display:flex;
+    flex-direction:column;
+    
+    
+    justify-content: center;
+    align-items:right;
+    margin-top:10vh;
+    background-color:white;
+    padding:0.5rem;
+    width:52vw;
+    margin-left:30vw;
+ 
+}
+.button-submit{
+    display:flex;
+
+    background-color:red;
+    justify-content:center;
+    color:white;
+    padding:0.3rem;
+    width:100px;
+    margin-left:10px;
+    margin-bottom:10px;
+    
+}

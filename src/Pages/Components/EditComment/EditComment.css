@@ -1,0 +1,24 @@
+.content-div{
+    display:flex;
+    flex-direction:column;
+    background-color:#CFD2CF;
+    width:60vw;
+    min-height:35vh;
+    margin-left:25%;
+    margin-top:10%;
+  
+    border-radius:0.2rem;
+   
+
+}
+.former-content{
+    margin-top:2.5%;
+    margin-left:15%;
+    padding:0.4rem;
+    background-color: white;
+    width:40vw;
+    border:0.2rem solid white;
+    border-radius:0.2rem;
+
+
+}

@@ -1,0 +1,96 @@
+.parent-div{
+    display:flex;
+    flex-direction:column;
+    
+    background-color:rgb(243, 232, 232);
+    margin-left:5%;
+    width:90%;
+    border-left:1px solid black;
+    border-radius:0.5rem;
+    margin-top:5%;
+}
+.parent-element{
+    display:flex;
+    flex-direction:column;
+    
+  
+}
+.parent-date{
+    display:flex;
+    flex-direction:row;
+    justify-content: flex-end;
+    margin-right:1%;
+ 
+    font-size:14px;
+}
+.children-div{
+    margin-top:1%;
+    border-left:1px solid rgb(148, 140, 140);
+    margin-left:5%;
+    
+    min-height:10vh;
+}
+.third-child{
+    margin-top:1%;
+    border-left:1px solid rgb(148, 140, 140);
+    margin-left:5%;
+
+}
+.fourth-child{
+    margin-top:1%;
+    border-left:1px solid rgb(148, 140, 140);
+    margin-left:5%;
+}
+.fifth-child{
+    margin-top:1%;
+    border-left:1px solid rgb(148, 140, 140);
+    margin-left:5%;
+
+}
+.parent-name{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+  
+    margin-right:2%;
+    font-style:bold;
+    font-size:18px;
+
+}
+.button-reply{
+    width:12.5%;
+    margin-left:2%;
+    
+}
+.first-comment{
+    display:flex;
+    flex-direction:row;
+    margin-left:30%;
+}
+.text-color{
+    color:rgb(52,58,64);
+    
+
+}
+.button-remove{
+    background-color:rgb(219, 59, 59);
+    justify-content:center;
+    color:white;
+    padding:0.1rem;
+    width:100px;
+    margin-left:10px;
+    margin-bottom:10px;
+
+}
+.buttons-remove{
+    margin-left:5%;
+}
+.button-noremove{
+    
+    justify-content:center;
+
+    padding:0.1rem;
+    width:100px;
+    margin-left:10px;
+    margin-bottom:10px;
+}
