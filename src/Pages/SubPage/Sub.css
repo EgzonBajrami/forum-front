@@ -1,6 +1,7 @@
 .subheader{
     display:flex;
     flex-direction:column;
+    margin-top:5%;
   
    
     width:90%;
@@ -56,17 +57,48 @@ li{
 }
 .posts{
     display:flex;
-    flex-direction:column;
-}
-.under-info{
-    display:flex;
     flex-direction:row;
+}
+.posts:hover{
+    background-color:rgb(191, 187, 187);
+    cursor: pointer;
+}
+a{
+    text-decoration:none;
+
+}
+
+.info-container{ 
+    display:flex;
+    flex-direction:column;
     color:black;
     width:90%;
     left:0;
+    border-bottom:0.15rem solid white;
+
+    
    
     margin-left:2%;
 
+}
+.info-post{
+    display:flex;
+    flex-direction:row;
+    margin-top:2%;
+    height:10vh;
+  
+}
+.post-info{
+    display:flex;
+    flex-direction:row;
+    width:90%;
+    margin-left:2%;
+    
+}
+.contains-image{
+    height:10vh;
+    border:0.1rem solid black;
+    padding:0.4rem;
 }
 .add-post{
     display:flex;
@@ -76,9 +108,16 @@ li{
     width:fit-content;
     margin-left:35%;
     border:0.2rem solid black;
+    border-radius:0.2rem solid black;
     margin-bottom:2%;
+    height:8vh;
 }
 .add-post:hover{
     background-color:rgb(191, 187, 187);
     cursor: pointer;
 }
+.created-date{
+ margin-left:5%;
+    
+}
+

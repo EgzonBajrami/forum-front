@@ -1,12 +1,12 @@
 import { useEffect,useState } from 'react';
 import {useLocation,Link,useNavigate} from 'react-router-dom';
-import axios from 'axios';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {api,endpoints} from '../../Lib/Api'
 import { getHeaderStructore } from '../../Lib/helpers/helpers';
 import {useSelector} from 'react-redux'
-
+import Header from '../Components/Header/Header'
 import './Sub.css'
 
 const Sub = () =>{
@@ -24,26 +24,42 @@ const Sub = () =>{
   
 
    const [currentSub,setCurrentSub] = useState();
-   const [dummyPosts, setDummyPosts] = useState();
+
    const [postArray, setPostArray] = useState([]);
-   const [newArray,setNewArray] = useState();
+
    useEffect(()=>{
     const getSub = async () =>{
         const result = await api.call(endpoints.getForumPosts,config)
         console.log(result.data);
-        setCurrentSub(result.data);
+        setCurrentSub([result.data]);
        
 
        
     }
+    const getForum = async () =>{
+        const result = await api.call(endpoints.getSubPosts,config)
+        console.log(result);
+        setPostArray(result.data)
+    
+       
+
+       
+    }
+  
  
   
     getSub();
+    getForum();
    
  
 
    },[])
+ 
    console.log(currentSub);
+
+   console.log(postArray);
+   
+   
  
   
 
@@ -63,12 +79,15 @@ const Sub = () =>{
   
    
     return<>
+    <Header />
     
     <div className="subheader">
         {currentSub &&
              (<ul className="subUl">
-            <h3>{currentSub.subforumName}</h3>
-            <h3>{currentSub.description}</h3>
+            <h3>{currentSub[0].subforumName}
+            <br></br>
+            <br></br>
+            {currentSub[0].description}</h3>
             </ul>)
         
             
@@ -76,6 +95,7 @@ const Sub = () =>{
         </div>
         {currentSub &&( 
         <div className="add-post" onClick={createPostHandler}>
+            
             <FontAwesomeIcon size="lg" icon={faPlus} />
             <h4>Create a new post</h4>
         </div>
@@ -83,31 +103,38 @@ const Sub = () =>{
         {currentSub &&( 
         <div className="subcontent">
             {
-currentSub.posts && currentSub.posts.map((elem)=>{
+postArray && postArray.map((elem)=>{
                 return ( 
+                
                     <Link to={{pathname:`/subforums/${sub}/post/${elem._id}`}}>
-                <ul className="posts">
-                    <div className="contains-posts">
-                        
-                      
-                    
-                 
-                    <div className="info-post">
+                            {elem.author &&( 
+                  <div className="posts">
+                    <div className="contains-image">
+                     {elem.author && (
+                        <img src={elem.author.avatar} />
+                     )}
+                    </div>
+                    <div className="info-container">
+                        <div>
+                           <h4 className="remove-space"> {elem.title}</h4>
+                        </div>
+                        <div className="postContainer" dangerouslySetInnerHTML={{__html:elem.textSubmission}} />
+                        <div className="info-post">
+                            <div className="author-info">
+                                <p>Posted by:{elem.author.username}</p>
 
-                    <li className="listforPost">{elem.title}</li>
+                            </div>
+                            <div className="post-info">
+                                <p>Upvotes:{elem.upvotedBy.length - elem.downvotedBy.length}</p>
+                                <p className="created-date">Posted at:{elem.createdAt.split('T')[0]} </p>
+             
+                            </div>
+
+       
+                        </div>
                     </div>
-        
-                   
-                    <div className="under-info">
-                      <li className="get-info">
-                     {elem.textSubmission.slice(0,50)}</li>
-                  
-                     
-                    </div>
-                    </div>
-                    
-                    
-                </ul>
+                  </div>
+                  )}
                 </Link>)
             })
         } 

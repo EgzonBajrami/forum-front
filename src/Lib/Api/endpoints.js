@@ -24,7 +24,10 @@ const endpoints = {
     findSubByName:{url:'/subforum/subName/', method:"GET"},
     editSubForum:{url:'/subforum/editSub/',method:"POST"},
     getUserPosts:{url:'/posts/userPosts/',method:"GET"},
-    getForumPosts:{url:'/subforum/subId/', method:"GET"}
+    getForumPosts:{url:'/subforum/subId/', method:"GET"},
+    getUserNotifications:{url:'/notifications/', method:"GET"},
+    deleteNotification:{url:'/notifications/delete/', method:'POST'},
+    clearNotifications:{url:'/notifications/clear/',method:"POST"}
 
 
     

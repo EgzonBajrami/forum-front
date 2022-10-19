@@ -1,11 +1,11 @@
-import { useEffect,useState } from "react";
+import {useState } from "react";
 import {useSelector} from 'react-redux';
-import jwt_decode from 'jwt-decode';
+
 import {api,endpoints} from '../../Lib/Api'
 import { getHeaderStructore } from '../../Lib/helpers/helpers';
 import {useLocation,useNavigate} from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
-
+import Header from '../Components/Header/Header'
 
 const EditProfile = () =>{
     const location = useLocation();
@@ -28,6 +28,7 @@ const EditProfile = () =>{
     const handleSubmit =  async (e) => {
       e.preventDefault()
       const editConfig = {...config};
+      
       const userData = [firstName,lastName,age,username,avatar];
       editConfig.data = userData;
       const result = await api.call(endpoints.editUser,editConfig);
@@ -43,6 +44,8 @@ const EditProfile = () =>{
     }
   
     return (
+      <>
+      <Header />
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>First Name</Form.Label>
@@ -116,6 +119,7 @@ const EditProfile = () =>{
           <Button type="submit">Submit</Button>
         </div>
       </Form>
+      </>
     )
   }
 export default EditProfile;

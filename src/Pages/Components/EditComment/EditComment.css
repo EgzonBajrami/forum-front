@@ -6,7 +6,8 @@
     min-height:35vh;
     margin-left:25%;
     margin-top:10%;
-  
+    border:0.2rem solid black;
+     align-items:center;
     border-radius:0.2rem;
    
 
@@ -15,10 +16,26 @@
     margin-top:2.5%;
     margin-left:15%;
     padding:0.4rem;
-    background-color: white;
+    background-color:#CFD2CF;
     width:40vw;
-    border:0.2rem solid white;
+   
     border-radius:0.2rem;
 
+
+}
+.new-comment{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+}
+.submit-btn{
+    background-color:rgb(219, 59, 59);
+    justify-content:center;
+    color:white;
+    padding:0.1rem;
+    width:100px;
+    height:40px;
+    margin-left:10px;
+    margin-top:10px;
 
 }

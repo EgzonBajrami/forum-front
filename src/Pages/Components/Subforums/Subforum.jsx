@@ -1,4 +1,4 @@
-import axios from 'axios'
+
 import './subforum.css'
 import {useState,useEffect} from 'react';
 import {useParams,useNavigate,Link} from 'react-router-dom';
@@ -22,7 +22,7 @@ const Subforum = () =>{
         const getForums = async() =>{
             const result = await api.call(endpoints.getSub,config)
             console.log(result);
-            const data = result.data;
+          
             
             setSubscribed(result.message);
             
@@ -35,24 +35,57 @@ const Subforum = () =>{
    console.log(subscribed);
    const clickHandler = (event) =>{
     event.preventDefault();
-    const loc = event.target.id;
-    navigate(`/subforums/${loc}`)
- 
     console.log(event.target.id);
+    const loc = event.target.id;
+  
+ 
     
    }
 
     return <>
-    <div className="subforum">
-    {subscribed &&subscribed.map((elem)=>{
+   
+    
       
  
-    return ( <ul key={elem._id} id={elem._id} onClick={clickHandler}><> <li id={elem._id}>{elem.subforumName}</li>
-       <li id={elem._id}>{elem.description}</li></>
-       </ul>
-    )
+      <div id="wrapper">
+      <div id="content-wrapper">
+        <div id="content">
+          <h4>Sub Forums </h4>
+          <dl id="mobile-responsive">
+          {subscribed &&subscribed.map((elem)=>{ 
+            return( 
+            <div className="get-id" key={elem._id} id={elem._id}  onClick={(e)=>{navigate(`/subforums/${elem._id}`)}}>
+         
+            <dt>{elem.subforumName}</dt>
+            <dd>{elem.description} </dd>
+            
+            </div>
 
-      })}
+            )
+           
+})}
+          </dl>
+
+        </div>
+      </div>
+      <div id="sidebar-wrapper">
+        <div id="sidebar">
+          <h3>Forum Rules</h3>
+          <ul id="mobile-respons" >
+            <li>Spamming is not allowed.</li>
+            <li>Be respectful towards other forum members.</li>
+            <li>Don’t be offensive, abusive or cause harassment.</li>
+            <li>Do not post content that is unsafe for work.</li>
+            <li>This includes sexual, hateful, racist, homophobic, sexist, provocative or vulgar content.</li>
+
+          </ul>
+          
+        </div>
+      </div>
+
+ 
+
+   
      
    
       

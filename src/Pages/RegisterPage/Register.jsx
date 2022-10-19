@@ -10,6 +10,7 @@ import {
 import './Home.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
+import Header from '../Components/Header/Header'
 
 
 const formReducer = (state, action) => {
@@ -99,6 +100,8 @@ const Register = () => {
   };
 
   return (
+    <> 
+    <Header/>
     <Container>
         {variant && <Alert variant={variant}>{message}</Alert>}
     <form className="place-form" onSubmit={placeSubmitHandler}>
@@ -171,6 +174,7 @@ const Register = () => {
       </button>
     </form>
     </Container>
+    </>
   );
 };
 

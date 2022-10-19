@@ -1,0 +1,26 @@
+.wrapper{
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    border-right:0.1rem solid black;
+    border-left:0.1rem solid black;
+    padding:0.5rem;
+}
+.notifications-wrapper{
+    display:flex;
+    flex-direction:row;
+    padding:1rem;
+
+    border-bottom:0.1rem solid black;
+    justify-content: center;
+
+}
+.notifications-wrapper:hover{
+    background-color: rgb(129, 154, 227);
+}
+.modal-footer{
+    display:flex;
+    flex-direction:row;
+   
+    justify-content: center;
+}

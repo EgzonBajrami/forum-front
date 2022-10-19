@@ -1,5 +1,5 @@
 import {useState,useEffect} from 'react'
-import {useLocation} from 'react-router-dom';
+import {useLocation,useNavigate} from 'react-router-dom';
 
 import {useSelector} from 'react-redux';
 
@@ -9,12 +9,18 @@ import { getHeaderStructore } from '../../Lib/helpers/helpers';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { Alert } from 'react-bootstrap';
+import {EditorState, convertToRaw} from 'draft-js';
+import {Editor} from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import './CreatePost.css';
 
 
 
 const CreatePost = () =>{
     const location = useLocation();
+    const navigate = useNavigate();
     const[title,setTitle] = useState('');
     const[content,setContent] = useState('');
     const[variant,setVariant] = useState();
@@ -34,6 +40,7 @@ const CreatePost = () =>{
   
   
     console.log(location.state)
+
 
     
     const handleTitle = (e)=>{
@@ -56,11 +63,22 @@ const CreatePost = () =>{
     
           setVariant('success');
           setMessage('Post has been successfully created!')
+          setTimeout(()=>{
+         
+          
+            navigate(`/subforums/${result.data.subforum}/post/${result.data._id}`)
+          },3000);
+
         }
         if(!result.success){
           console.log('failed');
           setVariant('danger');
-          setMessage('Post has not been created, something went wrong.')
+          setMessage(result.data)
+          setTimeout(()=>{
+            console.log(result);
+            setVariant('');
+          },3000);
+          
         }
       
      
@@ -71,7 +89,7 @@ const CreatePost = () =>{
       setImg(e.currentTarget.value);
     }
     return <>
-        {variant &&(<Alert variant={variant}>{message}</Alert>)}
+        {variant ?(<Alert variant={variant}>{message}</Alert>):( 
     <div className="cont-div">
   
   
@@ -114,6 +132,7 @@ const CreatePost = () =>{
     </Form>
 
     </div>
+    )}
     </>
 
 }

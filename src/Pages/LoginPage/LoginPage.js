@@ -12,7 +12,7 @@ import jwt_decode from 'jwt-decode';
 import { useSelector, useDispatch } from 'react-redux'
 import {login} from '../../Lib/auth.js'
 import {Container,Alert} from 'react-bootstrap';
-
+import Header from '../Components/Header/Header'
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -110,7 +110,10 @@ const LoginPage = () => {
     navigate('/forgot-password')
   }
 
-  return (<Container>
+  return (
+    <>
+    <Header/>
+  <Container>
     {variant && <Alert variant={variant}>{message}</Alert>}
     <form className="place-form" onSubmit={placeSubmitHandler}>
       <Input
@@ -143,6 +146,7 @@ const LoginPage = () => {
     </form>
    
     </Container>
+    </>
   );
 };
 

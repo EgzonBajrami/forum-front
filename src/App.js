@@ -1,17 +1,18 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Header from './Pages/Components/Header/Header.jsx'
+
 
 import { Provider } from 'react-redux';
 import store from './Lib/store';
 import { routeData } from './Lib/Routes/RouteData'
 import PrivateRoutes from './Lib/Routes/PrivateRoutes'
 import PublicRoutes from './Lib/Routes/PublicRoutes'
+
 
 
 function App() {
@@ -21,11 +22,15 @@ function App() {
   return <>
 <Provider store={store}>
   <Router>
-    <Header />
+
+
+   
   
-          
- 
-  <Routes>
+
+
+
+<Routes>
+
   {routeData.public.map((elem, index) => (
             <Route key={index} path={elem.path} element={<PublicRoutes>{elem.element}</PublicRoutes>} />
           ))}
@@ -41,6 +46,10 @@ function App() {
 
 
   </Routes>
+
+
+          
+ 
 </Router>
 </Provider>
 </>

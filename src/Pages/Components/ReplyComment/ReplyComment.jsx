@@ -55,10 +55,10 @@ commenter:decoded};
     setReply(e.target.value)
 
   }
-return <div>
-  <form onSubmit={handleSubmit}>
+return <div >
+  <form className="reply-fix" onSubmit={handleSubmit}>
     
-    <textarea value={reply} onChange={handleChange} />
+    <textarea className="reply-fix" value={reply} onChange={handleChange} />
     
     <button type="submit">Submit</button>
   </form>
