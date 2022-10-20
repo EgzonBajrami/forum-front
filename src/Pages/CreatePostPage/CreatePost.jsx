@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import {useState} from 'react'
+=======
+import {useState,useEffect} from 'react'
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
 import {useLocation,useNavigate} from 'react-router-dom';
 
 import {useSelector} from 'react-redux';
@@ -9,7 +13,13 @@ import { getHeaderStructore } from '../../Lib/helpers/helpers';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { Alert } from 'react-bootstrap';
+<<<<<<< HEAD
 
+=======
+import {EditorState, convertToRaw} from 'draft-js';
+import {Editor} from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html'
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import './CreatePost.css';

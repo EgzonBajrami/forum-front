@@ -9,7 +9,11 @@ import {
 } from '../../SharedComponents/Utils/validators';
 import './Home.css';
 import axios from 'axios';
+<<<<<<< HEAD
 
+=======
+import {useNavigate} from 'react-router-dom'
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
 import Header from '../Components/Header/Header'
 
 

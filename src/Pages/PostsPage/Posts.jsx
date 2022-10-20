@@ -26,6 +26,7 @@ const Posts = () =>{
     console.log(decoded);
     const [img,setImg] = useState();
     const [heart,setHeart] = useState();
+<<<<<<< HEAD
     console.log(heart);
     const [show,setShow] = useState(false);
     const config = useMemo(()=>{
@@ -35,6 +36,13 @@ const Posts = () =>{
             params:[requestedPostId],
            
         }
+=======
+    const [show,setShow] = useState(false);
+    const config = {
+        headers: getHeaderStructore(auth.token),
+        params:[requestedPostId],
+       
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
         
       },[auth,requestedPostId])
     

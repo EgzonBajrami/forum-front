@@ -1,6 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+<<<<<<< HEAD
 import {useState,useEffect, useMemo} from 'react';
+=======
+import {useState,useEffect} from 'react';
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
 
 
 import {api,endpoints} from '../../../Lib/Api'
@@ -26,6 +30,7 @@ const VerticalModal =(props)=> {
    decoded = jwt_decode(auth.token);
   console.log(decoded._id);
 }
+<<<<<<< HEAD
   const config = useMemo(()=>{
     return{
 
@@ -36,6 +41,15 @@ const VerticalModal =(props)=> {
    
     
   },[auth,decoded._id])
+=======
+  const config = {
+    headers: getHeaderStructore(auth.token),
+    params:[decoded._id]
+   
+   
+    
+  }
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
   useEffect(()=>{
     const getNotifications = async() =>{
         const result = await api.call(endpoints.getUserNotifications,config);
@@ -43,8 +57,12 @@ const VerticalModal =(props)=> {
     }
     getNotifications();
 
+<<<<<<< HEAD
   },[auth,config]) // eslint-disable-next-line
 
+=======
+  },[])
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
   const handleClick = async(e) =>{
     e.preventDefault();
     const index = e.target.id;
@@ -59,7 +77,11 @@ const VerticalModal =(props)=> {
      
       
     }
+<<<<<<< HEAD
      await api.call(endpoints.deleteNotification,editConf);
+=======
+    const result = await api.call(endpoints.deleteNotification,editConf);
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
    props.onHide();
     
   }

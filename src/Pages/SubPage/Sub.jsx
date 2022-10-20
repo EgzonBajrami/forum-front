@@ -56,7 +56,11 @@ const Sub = () =>{
    
  
 
+<<<<<<< HEAD
    },[config])
+=======
+   },[])
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
  
    console.log(currentSub);
 
@@ -114,7 +118,11 @@ postArray && postArray.map((elem)=>{
                   <div className="posts">
                     <div className="contains-image">
                      {elem.author && (
+<<<<<<< HEAD
                         <img src={elem.author.avatar} alt="" />
+=======
+                        <img src={elem.author.avatar} />
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
                      )}
                     </div>
                     <div className="info-container">

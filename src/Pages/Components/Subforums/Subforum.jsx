@@ -36,6 +36,17 @@ const Subforum = () =>{
        
     }
    console.log(subscribed);
+<<<<<<< HEAD
+=======
+   const clickHandler = (event) =>{
+    event.preventDefault();
+    console.log(event.target.id);
+    const loc = event.target.id;
+  
+ 
+    
+   }
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
 
     return <>
    

@@ -1,6 +1,10 @@
 import {useState,useEffect} from 'react'
 import {useLocation,useNavigate} from 'react-router-dom';
+<<<<<<< HEAD
 
+=======
+import axios from 'axios';
+>>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
 import {useSelector} from 'react-redux';
 
 import {api,endpoints} from '../../../Lib/Api'
