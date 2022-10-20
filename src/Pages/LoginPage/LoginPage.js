@@ -7,12 +7,12 @@ import {
 } from '../../SharedComponents/Utils/validators';
 import './Home.css';
 import axios from 'axios';
-import {useNavigate,Link} from 'react-router-dom'
-import jwt_decode from 'jwt-decode';
-import { useSelector, useDispatch } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+
+import {  useDispatch } from 'react-redux'
 import {login} from '../../Lib/auth.js'
 import {Container,Alert} from 'react-bootstrap';
-
+import Header from '../Components/Header/Header'
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -41,7 +41,7 @@ const formReducer = (state, action) => {
 const LoginPage = () => {
   const [variant,setVariant] = useState();
   const [message,setMessage] = useState();
-  const token = useSelector((state) => state.auth.token)
+
   const d= useDispatch();
   const [logged,setLogged] = useState(false);
 
@@ -110,7 +110,10 @@ const LoginPage = () => {
     navigate('/forgot-password')
   }
 
-  return (<Container>
+  return (
+    <>
+    <Header/>
+  <Container>
     {variant && <Alert variant={variant}>{message}</Alert>}
     <form className="place-form" onSubmit={placeSubmitHandler}>
       <Input
@@ -143,6 +146,7 @@ const LoginPage = () => {
     </form>
    
     </Container>
+    </>
   );
 };
 

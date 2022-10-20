@@ -5,6 +5,7 @@ import './EditComment.css'
 import {api,endpoints} from '../../../Lib/Api'
 import { getHeaderStructore } from '../../../Lib/helpers/helpers';
 import {useSelector} from 'react-redux'
+import Header from '../Header/Header'
 
 const EditComment = () =>{
   const auth = useSelector((state)=>state.auth.data);
@@ -30,7 +31,7 @@ const EditComment = () =>{
     }
     getComment();
 
-  },[])
+  })
   console.log(data);
   const handleSubmit = async (e) =>{
     e.preventDefault();
@@ -44,6 +45,7 @@ const EditComment = () =>{
 
   }
   return<>
+  <Header />
   {data &&(
     <div className="content-div">
         <div className="former-content">
@@ -51,9 +53,9 @@ const EditComment = () =>{
            {data[0].content}
         </div>
         <div className="new-comment">
-            <form onSubmit={handleSubmit}>
+            <form className="new-comment" onSubmit={handleSubmit}>
                 <textarea type="text" value={newReply} onChange={handleChange}></textarea>
-                <button type="submit">Submit</button>
+                <button className="submit-btn"  type="submit">Submit</button>
             </form>
         </div>
 

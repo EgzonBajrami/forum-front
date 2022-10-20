@@ -1,14 +1,20 @@
+.contains-stats{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+}
 .profile-stats{
     display:flex;
     flex-direction:row;
     margin-top:5%;
     justify-content: center;
-    margin-left:30%;
+    
     width:60%;
     border:0.2rem solid black;
     border-radius:0.2rem;
 
 }
+
 .avatar-img{
     width:100%;
     height:100%;
@@ -16,8 +22,13 @@
     border-radius:0.2rem;
     
 }
+.center-btn{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+}
 .edit-btn{
-    margin-left:53%;
+  
     margin-top:1%;
     padding:0.2rem;
 }

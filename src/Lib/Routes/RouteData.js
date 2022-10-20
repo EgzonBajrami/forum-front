@@ -1,7 +1,7 @@
 import Home from '../../Pages/HomePage/Home.js'
 import LoginPage from '../../Pages/LoginPage/LoginPage.js'
 import Register from '../../Pages/RegisterPage/Register.jsx'
-import Header from '../..//Pages/Components/Header/Header.jsx'
+
 import Sub from '../../Pages/SubPage/Sub'
 import Posts from '../../Pages/PostsPage/Posts.jsx'
 import EditComment from '../../Pages/Components/EditComment/EditComment';
@@ -15,6 +15,8 @@ import Dashboard from '../../Pages/Dashboard/Dashboard.jsx'
 import ForgotPassword from '../../Pages/ForgotPassword/ForgotPassword.jsx'
 import ResetPassword from '../../Pages/ResetPasswordPage/ResetPassword.jsx'
 import EditSubforumForm from '../../Pages/Components/EditSubforumForm/EditSubforumForm.jsx'
+import WithEditor from '../../Pages/Components/WithEditor/WithEditor.jsx'
+import MainPage from '../../Pages/MainPage/MainPage'
 
 /*
   <Routes>
@@ -35,6 +37,11 @@ export const routeData = {
         {
             path:'/register',
             element:<Register />
+        },
+        {
+            path:'/',
+            element:<MainPage />
+
         },
         {
             path:'/verify',
@@ -58,7 +65,7 @@ export const routeData = {
     ],
     exposed:[
         {
-            path:'/',
+            path:'/home',
             element:<Home />
         }
     ],
@@ -77,7 +84,7 @@ export const routeData = {
         },
         {
             path:'/subforums/:sub/createPost',
-            element:<CreatePost />
+            element:<WithEditor />
         },
         {
             path:'/subforums/:name/post/:id',

@@ -7,6 +7,7 @@ import {useState} from 'react';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {useNavigate} from 'react-router-dom'
+import Header from '../Components/Header/Header'
 
 const Dashboard = () =>{
   const navigate = useNavigate();
@@ -14,10 +15,7 @@ const Dashboard = () =>{
     const [username,setUserName] = useState('');
     const [user,setUser] = useState([])
     const [subforum,setSubForum] = useState('');
-    const [variant,setVariant] = useState('');
-    const [deleted,setDeleted] = useState('');
-    const [message,setMessage] = useState();
-    const [confirmation,setConfirmation] = useState();
+
     const[icon,setIcon] = useState('')
     const[description, setDescription] = useState('');
     const config = {
@@ -73,6 +71,7 @@ const Dashboard = () =>{
     }
 
     return <>
+    <Header />
     <div className="dashboard-title">
         <h1>Dashboard</h1>
     </div>

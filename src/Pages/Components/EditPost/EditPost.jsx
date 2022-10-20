@@ -1,18 +1,20 @@
 import {useState,useEffect} from 'react'
-import {useLocation} from 'react-router-dom';
-import axios from 'axios';
+import {useLocation,useNavigate} from 'react-router-dom';
+
 import {useSelector} from 'react-redux';
-import jwt_decode from 'jwt-decode';
+
 import {api,endpoints} from '../../../Lib/Api'
 import { getHeaderStructore } from '../../../Lib/helpers/helpers';
 import './EditPost.css'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import {Alert} from 'react-bootstrap';
 
 
 
 const EditPost = () =>{
     const location = useLocation();
+    const navigate = useNavigate();
     const postId = location.pathname.split('/')[2];
     const auth = useSelector((state)=>state.auth.data);
     const postData = location.state.locationPost;
@@ -20,6 +22,8 @@ const EditPost = () =>{
     const [title,setTitle] = useState(postData[0].title);
     const [content, setContent] = useState(postData[0].textSubmission);
     const [img,setImg] = useState(postData[0].imageSubmission);
+    const [variant,setVariant] = useState('');
+    const [message,setMessage] = useState('');
     const config = {
         headers: getHeaderStructore(auth.token),
         params:[postId],
@@ -35,9 +39,12 @@ const EditPost = () =>{
         }
         getPost();
 
-    },[])
+    })
     console.log(post);
     console.log(location.state)
+    const sub = location.state.locationPost[0].subforum;
+    console.log(sub);
+    const pid = location.state.locationPost[0]._id;
 
     
     const handleTitle = (e)=>{
@@ -54,13 +61,26 @@ const EditPost = () =>{
     }
     const handleSubmit = async (e) =>{
         e.preventDefault();
+          
+
         const editConfig = {...config};
         const postData = [title,content,img];
         editConfig.data = postData;
         const result = await api.call(endpoints.editPost,editConfig);
-        console.log(result);
+        setVariant('success');
+        setMessage('Your post has been edited!')
+
+        setTimeout(()=>{
+            console.log(result);
+            navigate(`/subforums/${sub}/post/${pid}`)
+          },3000);
+      
+
+        
     }
     return <>
+    {variant ?(<Alert variant={variant}>{message}</Alert>) : 
+    ( 
     <div className="cont-div">
         {post && 
     <Form onSubmit={handleSubmit}>
@@ -102,6 +122,7 @@ const EditPost = () =>{
     </Form>
 }
     </div>
+    ) }
     </>
 
 }

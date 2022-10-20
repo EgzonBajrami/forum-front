@@ -1,12 +1,13 @@
-import { useEffect,useState } from "react";
+import { useEffect,useState,useMemo } from "react";
 import {useSelector} from 'react-redux';
-import jwt_decode from 'jwt-decode';
+
 import {api,endpoints} from '../../Lib/Api'
 import { getHeaderStructore } from '../../Lib/helpers/helpers';
 import {useLocation,useNavigate} from 'react-router-dom'
 import './ProfilePage.css'
 import ProfileComments from "../Components/ProfileComments/ProfileComments";
 import ProfilePosts from "../Components/ProfilePosts/ProfilePosts";
+import Header from '../Components/Header/Header'
 
 const ProfilePage = () =>{
     const location = useLocation();
@@ -14,12 +15,15 @@ const ProfilePage = () =>{
     const userId = location.pathname.split('/')[2];
     console.log(userId);
     const auth = useSelector((state)=>state.auth.data);
-    const config = {
-        headers: getHeaderStructore(auth.token),
-        params:[userId],
+    const config = useMemo(()=>{
+        return{
+
+            headers: getHeaderStructore(auth.token),
+            params:[userId],
+        }
        
         
-      }
+      },[auth,userId]);
       const [data,setData] = useState();
       const [displayComments, setDisplayComments] = useState(false);
       const [displayPosts,setDisplayPosts] = useState(false);
@@ -35,7 +39,7 @@ const ProfilePage = () =>{
         getUser();
 
 
-    },[])
+    },[config])
     console.log(data);
     const handleEdit = (e) =>{
         e.preventDefault();
@@ -54,15 +58,17 @@ const ProfilePage = () =>{
         setDisplayComments(false);
     }
     return <>
+    <Header />
     {data &&( 
         <>
+        <div className="contains-stats"> 
     <div className="profile-stats">
         <div>
-        <img src="https://imgur.com/WP6Xmtl.png" className="avatar-img"/>
+        <img src="https://imgur.com/WP6Xmtl.png" className="avatar-img" alt=""/>
         </div>
         <div>
         <p>{data.firstName} {data.lastName}</p>
-        <p>Email: {data.email}</p>
+        <p>Username: {data.username}</p>
         <p>Account was created at: {data.createdAt.split('T')[0]}</p>
         <p>Age: {data.age}</p>
         </div>
@@ -70,7 +76,11 @@ const ProfilePage = () =>{
         
 
     </div>
+    </div>
+    <div className="center-btn">
+
     <button className="edit-btn" onClick={handleEdit}>Edit your profile</button>
+    </div>
     <div className="user-info">
         <div className="move-one">
 

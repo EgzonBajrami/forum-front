@@ -1,8 +1,8 @@
-import React,{useEffect, useState} from 'react'
-import { Container, Row,Alert } from 'react-bootstrap';
-import {Link, useLocation} from 'react-router-dom'
+import React,{ useState} from 'react'
+import { Container, Alert } from 'react-bootstrap';
+
 import {api,endpoints} from '../../Lib/Api'
-import { getHeaderStructore } from '../../Lib/helpers/helpers';
+
 import ForgotPasswordForm from '../Components/ForgotPasswordForm/ForgotPasswordForm';
 const ForgotPassword = () => {
     const [message, setMessage] = useState()

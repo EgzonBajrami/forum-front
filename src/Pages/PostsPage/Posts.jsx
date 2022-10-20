@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useEffect,useState} from 'react';
+import {useEffect,useState,useMemo} from 'react';
 import {useLocation,useNavigate} from 'react-router-dom';
 import Comments from '../Components/AllComments/Comments'
 import './Posts.css';
@@ -11,8 +11,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regFaHeart } from '@fortawesome/free-regular-svg-icons'
 
+
 import { faHeartCrack } from '@fortawesome/free-solid-svg-icons';
 import {faThumbsDown} from '@fortawesome/free-regular-svg-icons'
+import Header from '../Components/Header/Header'
 
 const Posts = () =>{
     const location = useLocation();
@@ -24,12 +26,17 @@ const Posts = () =>{
     console.log(decoded);
     const [img,setImg] = useState();
     const [heart,setHeart] = useState();
-    const config = {
-        headers: getHeaderStructore(auth.token),
-        params:[requestedPostId],
-       
+    console.log(heart);
+    const [show,setShow] = useState(false);
+    const config = useMemo(()=>{
+        return{
+
+            headers: getHeaderStructore(auth.token),
+            params:[requestedPostId],
+           
+        }
         
-      }
+      },[auth,requestedPostId])
     
 
     const [post, setPost] = useState([]);
@@ -41,11 +48,13 @@ const Posts = () =>{
          if(result.data.data.upvotedBy.includes(decoded._id)){
             setHeart(true);
          }
-         
-         setImg(result.data.data.imageSubmission);
+         if(result.data.data.imageSubmission.length>0){
+
+             setImg(result.data.data.imageSubmission+".jpg");
+         }
         }
         getPost();
-    },[])
+    },[config,decoded._id,requestedPostId])
     console.log(post);
     console.log(img);
     const handleEdit = (e) =>{
@@ -64,16 +73,45 @@ const Posts = () =>{
     const handleUpvote = async(e)=>{
         e.preventDefault();
         const result = await api.call(endpoints.upVote,config);
+        const getPost = async () =>{
+            const result = await axios.get(`http://127.0.0.1:4000/posts/${requestedPostId}`)
+            console.log(result);
+            setPost([result.data.data]);
+          
+            if(result.data.data.imageSubmission.length>0){
+   
+                setImg(result.data.data.imageSubmission+".jpg");
+            }
+           }
+           getPost();
         console.log(result);
 
     }
     const handleDownVote = async(e) =>{
         e.preventDefault();
         const result = await api.call(endpoints.downVote,config);
+        const getPost = async () =>{
+            const result = await axios.get(`http://127.0.0.1:4000/posts/${requestedPostId}`)
+            console.log(result);
+            setPost([result.data.data]);
+            if(result.data.data.upvotedBy.includes(decoded._id)){
+               setHeart(true);
+            }
+            if(result.data.data.imageSubmission.length>0){
+   
+                setImg(result.data.data.imageSubmission+".jpg");
+            }
+           }
+           getPost();
         console.log(result);
 
     }
+    const handleShow = (e) =>{
+        e.preventDefault();
+        setShow(!show);
+    }
     return <>
+    <Header />
     {post &&post.map((elem,index)=>{ 
         return( <>
          <div className="avatar">
@@ -84,11 +122,9 @@ const Posts = () =>{
             <h3 >{elem.title}</h3>
 
         </div>
-        <div className="postContainer">
-            <p>Posted by: {elem.author.username}</p>
-            <p>{elem.textSubmission}</p>
+        <div className="postContainer" dangerouslySetInnerHTML={{__html:elem.textSubmission}} />
+        
 
-        </div>
         {img && ( 
         <div className="image-here">
             <img src={img} className="image-onpost" alt="here" />
@@ -107,8 +143,12 @@ const Posts = () =>{
 
         
 
-      {(decoded._id===elem.author._id) && (<button onClick={handleEdit} id={elem._id}>Edit</button>) }
-      {(decoded._id===elem.author._id || auth.role==='ADMIN') && (<button onClick={handleRemove} id={elem._id}>Remove</button>) }
+      {(decoded._id===elem.author._id) && (<button onClick={handleEdit} className="button-noremove" id={elem._id}>Edit</button>) }
+      {(decoded._id===elem.author._id || auth.role==='ADMIN') && (<button onClick={handleShow} className="button-remove" id={elem._id}>Remove</button>) }
+      {show &&(<div className="buttons-remove">Are you sure you want to delete this post? 
+              <button className="button-remove" onClick={handleRemove} id={elem._id}>Yes</button>
+              <button className="button-noremove" onClick={handleShow}>No</button>
+              </div>)}
       </div>
         </div>
     

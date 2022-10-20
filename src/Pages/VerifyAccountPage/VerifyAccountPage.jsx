@@ -26,7 +26,7 @@ const VerifyAccountPage = () =>{
         }
         verifyAccount();
 
-    },[location.search])
+    },[location])
 
     return <>
     <Container>

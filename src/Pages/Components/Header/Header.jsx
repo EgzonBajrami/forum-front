@@ -1,20 +1,34 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+
+import {useNavigate} from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux';
-import {Link} from 'react-router-dom'
+import VerticalModal from '../Modal/Modal';
 import { logout} from '../../../Lib/auth';
+import {useState,useEffect} from 'react';
+
+
+import {api,endpoints} from '../../../Lib/Api'
+import { getHeaderStructore } from '../../../Lib/helpers/helpers';
+import {EnvelopeFill,EnvelopeDashFill} from 'react-bootstrap-icons'
+
 
 import './Header.css'
 
 
+
 const Header = () =>{
   const token = useSelector((state)=>state.auth.data);
+
+  const [open, setOpen] = useState(false);
   console.log(token);
   let decoded;
+  const navigate=useNavigate();
+
+  const auth = useSelector((state)=>state.auth.data);
   
   if(token){
 
@@ -22,12 +36,39 @@ const Header = () =>{
    decoded = jwt_decode(token.token);
   console.log(decoded._id);
 }
+const config = {
+  headers: getHeaderStructore(auth.token),
+  params:[decoded._id]
+ 
+ 
+  
+}
+
+useEffect(()=>{
+  const getUserNotific = async () =>{
+     
+    const result = await api.call(endpoints.getUserNotifications,config);
+   
+    console.log(result);
+  }
+getUserNotific();
+
+})
+
 
   const dispatch = useDispatch();
   const handleClick = (event) =>{
     event.preventDefault();
     dispatch(logout());
     
+  }
+  const handleNotificationClick = (event) =>{
+    event.preventDefault();
+    console.log("Clicked me");
+  }
+  const navigateHandler= (e) =>{
+    e.preventDefault();
+    navigate(`/profile/${decoded._id}`)
   }
 
     return<>
@@ -43,21 +84,11 @@ const Header = () =>{
             
            
        
-          <Nav.Link href="/placeholder">Main Page</Nav.Link>
+          <Nav.Link href="/">Home</Nav.Link>
           
             
          <>
-            <NavDropdown title="Forums" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="/News">News</NavDropdown.Item>
-              <NavDropdown.Item href="/Main-Forum">
-                Main-Forum
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/media">Media</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/Rules">
-                Rules
-              </NavDropdown.Item>
-            </NavDropdown>
+            
             <Nav.Link onClick={handleClick}>Log out</Nav.Link>
             
              </> 
@@ -77,14 +108,44 @@ const Header = () =>{
           </Nav>
           )
 }
-{token &&(
+{token &&(<div className="putinline">
+
+
   <Nav>
-    <Link to={{pathname:`/profile/${decoded._id}`}}>Profile</Link>
+    <Nav.Link> 
+
+  <div onClick={handleNotificationClick} className="addBorder">
+{open ? (
+  <EnvelopeDashFill onClick={()=> setOpen(!open)}
+  aria-controls="example-collapse-text" 
+  aria-expanded={open}
+  color="royalblue"
+  size={30}
+  />
+) :(
+  <EnvelopeFill onClick={()=> setOpen(!open)}
+  aria-controls="example-collapse-text" 
+  aria-expanded={open}
+  color="royalblue"
+  size={30}
+  />
+  
+)
+
+}
+
+</div>
+    </Nav.Link>
+    <Nav.Link onClick={navigateHandler}> Profile</Nav.Link>
   </Nav>
+  
+  </div>
 )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    <VerticalModal show={open}
+    onHide={()=>setOpen(false)}/>
     </>
 }
 export default Header;

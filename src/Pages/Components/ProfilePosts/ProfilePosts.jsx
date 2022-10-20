@@ -1,17 +1,20 @@
 import Table from 'react-bootstrap/Table'
-import {useEffect,useState} from 'react';
+import {useEffect,useState,useMemo} from 'react';
 import {api,endpoints} from '../../../Lib/Api'
 import { getHeaderStructore } from '../../../Lib/helpers/helpers';
 import {useSelector} from 'react-redux'
 const ProfilePosts = ({userId}) =>{
   const auth = useSelector((state)=>state.auth.data);
   const [posts,setPosts] = useState([]);
-  const config = {
+  const config = useMemo(()=>{
+    return{
       headers: getHeaderStructore(auth.token),
       params:[userId],
+
+    }
      
       
-    }
+    },[auth,userId])
     useEffect(()=>{
       const getUserPosts = async() =>{
         const result = await api.call(endpoints.getUserPosts,config);
@@ -20,7 +23,7 @@ const ProfilePosts = ({userId}) =>{
       }
       getUserPosts();
 
-    },[])
+    },[config])
     console.log(posts);
  return <>
  <Table striped bordered hover>

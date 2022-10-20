@@ -1,5 +1,5 @@
 import React, { useCallback, useReducer } from 'react';
-import {useCookies} from 'react-cookie';
+
 import {Alert, Container} from 'react-bootstrap';
 import {useState} from 'react';
 import Input from './RegisterInput.js'
@@ -9,7 +9,8 @@ import {
 } from '../../SharedComponents/Utils/validators';
 import './Home.css';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
+
+import Header from '../Components/Header/Header'
 
 
 const formReducer = (state, action) => {
@@ -37,7 +38,7 @@ const formReducer = (state, action) => {
 };
 
 const Register = () => {
-    const navigate = useNavigate();
+  
     const [variant, setVariant] = useState();
     const [message, setMessage] = useState();
 
@@ -99,6 +100,8 @@ const Register = () => {
   };
 
   return (
+    <> 
+    <Header/>
     <Container>
         {variant && <Alert variant={variant}>{message}</Alert>}
     <form className="place-form" onSubmit={placeSubmitHandler}>
@@ -171,6 +174,7 @@ const Register = () => {
       </button>
     </form>
     </Container>
+    </>
   );
 };
 

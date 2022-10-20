@@ -1,6 +1,6 @@
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import { getHeaderStructore } from '../../../Lib/helpers/helpers';
-import axios from 'axios';
+
 import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
@@ -11,7 +11,7 @@ const ReplyComment = ({commentId,poster}) =>{
   const location = useLocation();
   const postId = location.pathname.split('/')[4];
   const auth = useSelector((state)=>state.auth.data);
-  const [content,setContent] = useState();
+
   console.log(commentId);
   const comment_id = commentId;
  
@@ -29,15 +29,7 @@ const ReplyComment = ({commentId,poster}) =>{
   const handleSubmit = async (e) =>{
     e.preventDefault();
 
-    const data = [{ 
-      content:reply,
-    parent: poster._id,
-    post: postId,
-    commenter: decoded,
-
-
-
-  }]
+ 
    console.log(comment_id);
   config.data = {content:reply,
   parent:comment_id,
@@ -55,10 +47,10 @@ commenter:decoded};
     setReply(e.target.value)
 
   }
-return <div>
-  <form onSubmit={handleSubmit}>
+return <div >
+  <form className="reply-fix" onSubmit={handleSubmit}>
     
-    <textarea value={reply} onChange={handleChange} />
+    <textarea className="reply-fix" value={reply} onChange={handleChange} />
     
     <button type="submit">Submit</button>
   </form>
