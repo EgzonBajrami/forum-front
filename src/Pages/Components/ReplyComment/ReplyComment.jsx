@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import {api,endpoints} from '../../../Lib/Api'
+import "./ReplyComment.css";
 
 
 const ReplyComment = ({commentId,poster}) =>{
@@ -50,9 +51,9 @@ commenter:decoded};
 return <div >
   <form className="reply-fix" onSubmit={handleSubmit}>
     
-    <textarea className="reply-fix" value={reply} onChange={handleChange} />
+    <textarea className="reply-editor" value={reply} onChange={handleChange} placeholder="Write a reply" />
     
-    <button type="submit">Submit</button>
+    <button className="button-reply" type="submit">Reply</button>
   </form>
   
 </div>

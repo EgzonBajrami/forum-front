@@ -22,7 +22,7 @@ const EditComment = () =>{
   console.log(config.headers);
   
   const [data, setData] = useState();
-  const [newReply, setNewReply] = useState();
+  const [newReply, setNewReply] = useState("");
   useEffect(()=>{
     const getComment = async () =>{
         const response = await axios.get(`http://127.0.0.1:4000/comments/${commentId}`)
@@ -31,7 +31,7 @@ const EditComment = () =>{
     }
     getComment();
 
-  })
+  }, [commentId])
   console.log(data);
   const handleSubmit = async (e) =>{
     e.preventDefault();
@@ -47,15 +47,21 @@ const EditComment = () =>{
   return<>
   <Header />
   {data &&(
-    <div className="content-div">
-        <div className="former-content">
-            <h5>Pre-edit comment:</h5>
+    <div className="comment-editor-shell">
+        <div className="former-content composer-card">
+            <h5>Current comment</h5>
            {data[0].content}
         </div>
-        <div className="new-comment">
+        <div className="new-comment composer-card">
             <form className="new-comment" onSubmit={handleSubmit}>
-                <textarea type="text" value={newReply} onChange={handleChange}></textarea>
-                <button className="submit-btn"  type="submit">Submit</button>
+                <textarea
+                  type="text"
+                  className="comment-editor-area"
+                  value={newReply}
+                  onChange={handleChange}
+                  placeholder="Write your updated comment"
+                />
+                <button className="submit-btn"  type="submit">Save comment</button>
             </form>
         </div>
 

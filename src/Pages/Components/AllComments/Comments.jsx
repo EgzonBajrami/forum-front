@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useMemo} from 'react'
 import {useLocation,useNavigate} from 'react-router-dom'
 
 import ReplyComment from '../ReplyComment/ReplyComment.jsx'
@@ -33,12 +33,10 @@ const Comments = () =>{
     const[show4,setShow4] = useState(false);
     const[show5,setShow5] = useState(false);
     const [firstComment, setFirstComment] = useState("");
-    const config = {
+    const config = useMemo(() => ({
       headers: getHeaderStructore(auth.token),
       params:[postId],
-     
-      
-    }
+    }), [auth.token, postId]);
     console.log(config);
     
   
@@ -54,7 +52,7 @@ const Comments = () =>{
    
  
 
-    })
+    }, [config])
    
    
    

@@ -1,41 +1,44 @@
-.content-div{
-    display:flex;
-    flex-direction:column;
-    background-color:#CFD2CF;
-    width:60vw;
-    min-height:35vh;
-    margin-left:25%;
-    margin-top:10%;
-    border:0.2rem solid black;
-     align-items:center;
-    border-radius:0.2rem;
-   
-
+.comment-editor-shell {
+  width: min(900px, calc(100% - 32px));
+  margin: 24px auto 40px;
+  display: grid;
+  gap: 14px;
 }
-.former-content{
-    margin-top:2.5%;
-    margin-left:15%;
-    padding:0.4rem;
-    background-color:#CFD2CF;
-    width:40vw;
-   
-    border-radius:0.2rem;
 
-
+.composer-card {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.08);
 }
-.new-comment{
-    display:flex;
-    flex-direction:row;
-    justify-content: center;
-}
-.submit-btn{
-    background-color:rgb(219, 59, 59);
-    justify-content:center;
-    color:white;
-    padding:0.1rem;
-    width:100px;
-    height:40px;
-    margin-left:10px;
-    margin-top:10px;
 
+.former-content h5 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.new-comment {
+  display: block;
+}
+
+.comment-editor-area {
+  width: 100%;
+  min-height: 130px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 700;
 }

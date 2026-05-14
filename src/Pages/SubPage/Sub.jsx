@@ -1,156 +1,124 @@
-import { useEffect,useState,useMemo } from 'react';
-import {useLocation,Link,useNavigate} from 'react-router-dom';
+import { useEffect, useState, useMemo } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import {api,endpoints} from '../../Lib/Api'
-import { getHeaderStructore } from '../../Lib/helpers/helpers';
-import {useSelector} from 'react-redux'
-import Header from '../Components/Header/Header'
-import './Sub.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { api, endpoints } from "../../Lib/Api";
+import { getHeaderStructore } from "../../Lib/helpers/helpers";
+import { useSelector } from "react-redux";
+import Header from "../Components/Header/Header";
+import "./Sub.css";
 
-const Sub = () =>{
-    const location = useLocation();
-    const navigate = useNavigate();
-   const sub = location.pathname.split('/')[2];
-   console.log(sub);
-   const auth = useSelector((state)=>state.auth.data);
-   const config = useMemo(()=>{
-    return{
+const Sub = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const sub = location.pathname.split("/")[2];
+  console.log(sub);
+  const auth = useSelector((state) => state.auth.data);
+  const config = useMemo(() => {
+    return {
+      headers: getHeaderStructore(auth.token),
+      params: [sub],
+    };
+  }, [auth, sub]);
 
-        headers: getHeaderStructore(auth.token),
-        params:[sub],
-       
-    }
-    
-  },[auth,sub])
-  
+  const [currentSub, setCurrentSub] = useState();
 
-   const [currentSub,setCurrentSub] = useState();
+  const [postArray, setPostArray] = useState([]);
 
-   const [postArray, setPostArray] = useState([]);
+  useEffect(() => {
+    const getSub = async () => {
+      const result = await api.call(endpoints.getForumPosts, config);
+      console.log(result.data);
+      setCurrentSub([result.data]);
+    };
+    const getForum = async () => {
+      const result = await api.call(endpoints.getSubPosts, config);
+      console.log(result);
+      setPostArray(result.data);
+    };
 
-   useEffect(()=>{
-    const getSub = async () =>{
-        const result = await api.call(endpoints.getForumPosts,config)
-        console.log(result.data);
-        setCurrentSub([result.data]);
-       
-
-       
-    }
-    const getForum = async () =>{
-        const result = await api.call(endpoints.getSubPosts,config)
-        console.log(result);
-        setPostArray(result.data)
-    
-       
-
-       
-    }
-  
- 
-  
     getSub();
     getForum();
-   
- 
+  }, [config]);
 
-<<<<<<< HEAD
-   },[config])
-=======
-   },[])
->>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
- 
-   console.log(currentSub);
+  console.log(currentSub);
 
-   console.log(postArray);
-   
-   
- 
-  
+  console.log(postArray);
 
-  
-
-   const createPostHandler = (e)=>{
+  const createPostHandler = (e) => {
     e.preventDefault();
-    if(currentSub){
-
-        navigate(`/subforums/${sub}/createPost/`,{state:{subforum:sub}})
+    if (currentSub) {
+      navigate(`/subforums/${sub}/createPost/`, { state: { subforum: sub } });
     }
+  };
 
-    
-   }
-   
- 
-  
-   
-    return<>
-    <Header />
-    
-    <div className="subheader">
-        {currentSub &&
-             (<ul className="subUl">
-            <h3>{currentSub[0].subforumName}
-            <br></br>
-            <br></br>
-            {currentSub[0].description}</h3>
-            </ul>)
-        
-            
-        }
-        </div>
-        {currentSub &&( 
-        <div className="add-post" onClick={createPostHandler}>
-            
-            <FontAwesomeIcon size="lg" icon={faPlus} />
-            <h4>Create a new post</h4>
-        </div>
+  return (
+    <>
+      <Header />
+
+      <div className="subheader">
+        {currentSub && (
+          <ul className="subUl">
+            <h3>
+              {currentSub[0].subforumName}
+              <br></br>
+              <br></br>
+              {currentSub[0].description}
+            </h3>
+          </ul>
         )}
-        {currentSub &&( 
+      </div>
+      {currentSub && (
+        <div className="add-post" onClick={createPostHandler}>
+          <FontAwesomeIcon size="lg" icon={faPlus} />
+          <h4>Create a new post</h4>
+        </div>
+      )}
+      {currentSub && (
         <div className="subcontent">
-            {
-postArray && postArray.map((elem)=>{
-                return ( 
-                
-                    <Link to={{pathname:`/subforums/${sub}/post/${elem._id}`}}>
-                            {elem.author &&( 
-                  <div className="posts">
-                    <div className="contains-image">
-                     {elem.author && (
-<<<<<<< HEAD
-                        <img src={elem.author.avatar} alt="" />
-=======
-                        <img src={elem.author.avatar} />
->>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
-                     )}
-                    </div>
-                    <div className="info-container">
+          {postArray &&
+            postArray.map((elem) => {
+              return (
+                <Link to={{ pathname: `/subforums/${sub}/post/${elem._id}` }}>
+                  {elem.author && (
+                    <div className="posts">
+                      <div className="contains-image">
+                        {elem.author && <img src={elem.author.avatar} alt="" />}
+                      </div>
+                      <div className="info-container">
                         <div>
-                           <h4 className="remove-space"> {elem.title}</h4>
+                          <h4 className="remove-space"> {elem.title}</h4>
                         </div>
-                        <div className="postContainer" dangerouslySetInnerHTML={{__html:elem.textSubmission}} />
+                        <div
+                          className="postContainer"
+                          dangerouslySetInnerHTML={{
+                            __html: elem.textSubmission,
+                          }}
+                        />
                         <div className="info-post">
-                            <div className="author-info">
-                                <p>Posted by:{elem.author.username}</p>
-
-                            </div>
-                            <div className="post-info">
-                                <p>Upvotes:{elem.upvotedBy.length - elem.downvotedBy.length}</p>
-                                <p className="created-date">Posted at:{elem.createdAt.split('T')[0]} </p>
-             
-                            </div>
-
-       
+                          <div className="author-info">
+                            <p>Posted by:{elem.author.username}</p>
+                          </div>
+                          <div className="post-info">
+                            <p>
+                              Upvotes:
+                              {elem.upvotedBy.length - elem.downvotedBy.length}
+                            </p>
+                            <p className="created-date">
+                              Posted at:{elem.createdAt.split("T")[0]}{" "}
+                            </p>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                  </div>
                   )}
-                </Link>)
-            })
-        } 
-     
-            </div>) }</>
-
-}
+                </Link>
+              );
+            })}
+        </div>
+      )}
+    </>
+  );
+};
 export default Sub;

@@ -1,8 +1,31 @@
-body {
-  background-color: white;
-  margin: 0;
-   
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
 
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-soft: #eef3ff;
+  --text: #0f172a;
+  --text-muted: #5b667a;
+  --primary: #1d4ed8;
+  --primary-soft: #dbeafe;
+  --border: #dbe3ef;
+  --danger: #b42318;
+  --danger-soft: #fee4e2;
+  --success: #067647;
+  --radius: 10px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 20% 10%, #eef4ff 0%, #f4f6fb 40%, #f4f6fb 100%);
+  color: var(--text);
+  font-family: "Manrope", sans-serif;
 }
 
 

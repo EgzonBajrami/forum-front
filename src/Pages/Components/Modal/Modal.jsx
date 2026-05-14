@@ -1,98 +1,92 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-<<<<<<< HEAD
-import {useState,useEffect, useMemo} from 'react';
-=======
-import {useState,useEffect} from 'react';
->>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
+import { useState, useEffect, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import {api,endpoints} from '../../../Lib/Api'
-import { getHeaderStructore } from '../../../Lib/helpers/helpers';
-import {useSelector} from 'react-redux'
-import jwt_decode from 'jwt-decode'
-import {useNavigate} from 'react-router-dom'
-import './Modal.css'
+import jwt_decode from "jwt-decode";
 
-const VerticalModal =(props)=> {
+import { api, endpoints } from "../../../Lib/Api";
+import { getHeaderStructore } from "../../../Lib/helpers/helpers";
 
-    const auth = useSelector((state)=>state.auth.data);
+import "./Modal.css";
+
+const VerticalModal = (props) => {
+  const auth = useSelector((state) => state.auth.data);
+
   const navigate = useNavigate();
-  const [notifications,setNotifications] = useState([])
 
-  let decoded;
+  const [notifications, setNotifications] = useState([]);
 
+  const decoded = useMemo(() => {
+    if (!auth?.token) return null;
 
-  
-  if(auth){
+    try {
+      return jwt_decode(auth.token);
+    } catch {
+      return null;
+    }
+  }, [auth]);
 
-  
-   decoded = jwt_decode(auth.token);
-  console.log(decoded._id);
-}
-<<<<<<< HEAD
-  const config = useMemo(()=>{
-    return{
+  const config = useMemo(() => {
+    if (!auth?.token || !decoded?._id) return null;
 
+    return {
       headers: getHeaderStructore(auth.token),
-      params:[decoded._id]
-     
-    }
-   
-    
-  },[auth,decoded._id])
-=======
-  const config = {
-    headers: getHeaderStructore(auth.token),
-    params:[decoded._id]
-   
-   
-    
-  }
->>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
-  useEffect(()=>{
-    const getNotifications = async() =>{
-        const result = await api.call(endpoints.getUserNotifications,config);
-        setNotifications(result.data);
-    }
+      params: [decoded._id],
+    };
+  }, [auth, decoded]);
+
+  useEffect(() => {
+    if (!config) return;
+
+    const getNotifications = async () => {
+      try {
+        const result = await api.call(endpoints.getUserNotifications, config);
+
+        setNotifications(result.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     getNotifications();
+  }, [config]);
 
-<<<<<<< HEAD
-  },[auth,config]) // eslint-disable-next-line
+  const handleClick = async (notification) => {
+    try {
+      navigate(
+        `/subforums/${notification.postId.subforum}/post/${notification.postId._id}`,
+      );
 
-=======
-  },[])
->>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
-  const handleClick = async(e) =>{
-    e.preventDefault();
-    const index = e.target.id;
-    console.log(index);
+      const editConf = {
+        headers: getHeaderStructore(auth.token),
+        params: [notification._id],
+      };
 
-   
-    navigate(`/subforums/${notifications[index].postId.subforum}/post/${notifications[index].postId._id}`)
-    const editConf = {
-      headers: getHeaderStructore(auth.token),
-      params:[notifications[index]._id]
-     
-     
-      
+      await api.call(endpoints.deleteNotification, editConf);
+
+      props.onHide();
+    } catch (err) {
+      console.error(err);
     }
-<<<<<<< HEAD
-     await api.call(endpoints.deleteNotification,editConf);
-=======
-    const result = await api.call(endpoints.deleteNotification,editConf);
->>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
-   props.onHide();
-    
-  }
-  const handleClear = async(e) =>{
+  };
+
+  const handleClear = async (e) => {
     e.preventDefault();
-    const result = await api.call(endpoints.clearNotifications,config);
-    console.log(result);
-    
-  }
- 
-  console.log(notifications);
+
+    if (!config) return;
+
+    try {
+      await api.call(endpoints.clearNotifications, config);
+
+      setNotifications([]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Modal
       {...props}
@@ -102,34 +96,35 @@ const VerticalModal =(props)=> {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Notifications 
+          Notifications
         </Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
-        {notifications ? (
-            
-            <div className="wrapper">
-                {notifications.map((elem,index)=>(
-                    <div className="notifications-wrapper" onClick={handleClick} id={index} key={index}>
-                        {elem.text}</div>
-
-                ))}
-
-            </div>
-        ):(
-            <div>
-
-            </div>
-
-        )}
-       
+        <div className="wrapper">
+          {notifications.length > 0 ? (
+            notifications.map((elem) => (
+              <div
+                className="notifications-wrapper"
+                onClick={() => handleClick(elem)}
+                key={elem._id}
+              >
+                {elem.text}
+              </div>
+            ))
+          ) : (
+            <div>No notifications</div>
+          )}
+        </div>
       </Modal.Body>
-      <Modal.Footer className='modal-footer'>
+
+      <Modal.Footer className="modal-footer">
         <Button onClick={handleClear}>Clear</Button>
+
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
-}
-export default VerticalModal;
+};
 
+export default VerticalModal;

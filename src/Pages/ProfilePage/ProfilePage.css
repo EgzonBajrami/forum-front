@@ -1,57 +1,74 @@
-.contains-stats{
-    display:flex;
-    flex-direction:row;
-    justify-content: center;
-}
-.profile-stats{
-    display:flex;
-    flex-direction:row;
-    margin-top:5%;
-    justify-content: center;
-    
-    width:60%;
-    border:0.2rem solid black;
-    border-radius:0.2rem;
-
+.contains-stats,
+.center-btn,
+.user-info,
+.content-info {
+  width: min(980px, calc(100% - 32px));
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.avatar-img{
-    width:100%;
-    height:100%;
-   
-    border-radius:0.2rem;
-    
+.profile-stats {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
 }
-.center-btn{
-    display:flex;
-    flex-direction:row;
-    justify-content: center;
-}
-.edit-btn{
-  
-    margin-top:1%;
-    padding:0.2rem;
-}
-.user-info{
-    margin-top:5%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    border:0.2rem solid black;
-}
-.move-one{
-    margin-left:40%;
-}
-.move-two{
-    margin-left:40%;
-    padding:0.2rem;
-    
-}
-.comments-btn{
-    padding:0.2rem;
 
+.avatar-img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
 }
-.posts-btn{
-    padding:0.2rem;
-    margin-left:1%;
+
+.center-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.edit-btn,
+.comments-btn,
+.posts-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  font-weight: 700;
+}
+
+.edit-btn {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.user-info {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.move-one,
+.move-two {
+  margin-left: 0;
+}
+
+.move-two {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.content-info {
+  margin-top: 14px;
 }

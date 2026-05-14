@@ -1,0 +1,68 @@
+.editor-shell {
+  width: min(980px, calc(100% - 32px));
+  margin: 22px auto 40px;
+}
+
+.editor-card {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.08);
+}
+
+.myaccount-content {
+  margin: 0 0 14px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.8rem;
+}
+
+.update__forms .form-group {
+  margin-bottom: 14px;
+}
+
+.update__forms label {
+  margin-bottom: 6px;
+  color: #334155;
+  font-weight: 700;
+}
+
+.update__forms .form-control {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.toolbarClassName {
+  border: 1px solid var(--border) !important;
+  border-radius: 8px 8px 0 0;
+  background: #f8fbff !important;
+}
+
+.wrapperClassName {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.editorClassName {
+  min-height: 220px;
+  padding: 10px 12px;
+  background: #ffffff;
+}
+
+.btn__theme {
+  min-width: 128px;
+  min-height: 42px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.errors {
+  margin-bottom: 10px;
+  color: var(--danger);
+  font-weight: 700;
+}

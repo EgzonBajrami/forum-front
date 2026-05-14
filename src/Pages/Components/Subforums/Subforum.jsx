@@ -1,104 +1,195 @@
+import "./subforum.css";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { api, endpoints } from "../../../Lib/Api";
+import { useSelector } from "react-redux";
+import { getHeaderStructore } from "../../../Lib/helpers/helpers";
+import {
+  ArrowRight,
+  ChatSquareText,
+  Search,
+  ShieldCheck,
+} from "react-bootstrap-icons";
 
-import './subforum.css'
-import {useState,useEffect,useMemo} from 'react';
-import {useParams,useNavigate} from 'react-router-dom';
-import {api,endpoints} from '../../../Lib/Api'
-import {useSelector} from 'react-redux';
-import { getHeaderStructore } from '../../../Lib/helpers/helpers';
-const Subforum = () =>{
-    const navigate = useNavigate();
-    const params = useParams();
-    console.log(params.params);
-    const auth = useSelector((state)=>state.auth.data);
+const forumRules = [
+  "Keep posts useful, readable, and on topic.",
+  "Respect other members, especially when you disagree.",
+  "No harassment, hate, spam, or unsafe-for-work content.",
+  "Use clear titles so people can find the right thread fast.",
+];
 
-    const config = useMemo(()=> {
-      return{
+const Subforum = () => {
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth.data);
 
-        headers: getHeaderStructore(auth.token),
-      }
-       
-       
-        
-      },[auth])
-    const [subscribed,setSubscribed] = useState([])
-    useEffect(() =>{
-        const getForums = async() =>{
-            const result = await api.call(endpoints.getSub,config)
-            console.log(result);
-          
-            
-            setSubscribed(result.message);
-            
+  const config = useMemo(() => {
+    return {
+      headers: getHeaderStructore(auth?.token),
+    };
+  }, [auth]);
+
+  const [subscribed, setSubscribed] = useState([]);
+  const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const getForums = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+
+        const result = await api.call(endpoints.getSub, config);
+        const forums = Array.isArray(result?.message) ? result.message : [];
+
+        if (isMounted) {
+          setSubscribed(forums);
         }
-        getForums();
-    },[config]);
-    if(!Array.isArray(subscribed)){
-       
-    }
-   console.log(subscribed);
-<<<<<<< HEAD
-=======
-   const clickHandler = (event) =>{
-    event.preventDefault();
-    console.log(event.target.id);
-    const loc = event.target.id;
-  
- 
-    
-   }
->>>>>>> 8d35b154378bec18eddecf2a3856a99e28f5307a
+      } catch (err) {
+        if (isMounted) {
+          setSubscribed([]);
+          setError("Could not load the forum directory.");
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
 
-    return <>
-   
-    
-      
- 
-      <div id="wrapper">
-      <div id="content-wrapper">
-        <div id="content">
-          <h4>Sub Forums </h4>
-          <dl id="mobile-responsive">
-          {subscribed &&subscribed.map((elem)=>{ 
-            return( 
-            <div className="get-id" key={elem._id} id={elem._id}  onClick={(e)=>{navigate(`/subforums/${elem._id}`)}}>
-         
-            <dt>{elem.subforumName}</dt>
-            <dd>{elem.description} </dd>
-            
+    getForums();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [config]);
+
+  const filteredForums = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    if (!normalizedQuery) return subscribed;
+
+    return subscribed.filter((forum) => {
+      const name = forum?.subforumName?.toLowerCase() || "";
+      const description = forum?.description?.toLowerCase() || "";
+
+      return (
+        name.includes(normalizedQuery) || description.includes(normalizedQuery)
+      );
+    });
+  }, [query, subscribed]);
+
+  const openForum = (forumId) => {
+    navigate(`/subforums/${forumId}`);
+  };
+
+  return (
+    <main className="forum-directory">
+      <section className="forum-directory__content">
+        <div className="forum-directory__intro">
+          <div>
+            <p className="forum-directory__eyebrow">Community hub</p>
+            <h1>Subforums</h1>
+            <p className="forum-directory__lead">
+              Pick a room, catch up on the latest threads, and jump into the
+              conversations that fit your mood.
+            </p>
+          </div>
+
+          <div className="forum-directory__metric">
+            <span>{subscribed.length}</span>
+            <p>active spaces</p>
+          </div>
+        </div>
+
+        <label className="forum-search" htmlFor="subforum-search">
+          <Search aria-hidden="true" />
+          <input
+            id="subforum-search"
+            type="search"
+            placeholder="Search subforums"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </label>
+
+        <div className="forum-list" aria-live="polite">
+          {isLoading &&
+            Array.from({ length: 4 }).map((_, index) => (
+              <div className="forum-card forum-card--loading" key={index}>
+                <span />
+                <div>
+                  <strong />
+                  <p />
+                </div>
+              </div>
+            ))}
+
+          {!isLoading && error && (
+            <div className="forum-state forum-state--error">{error}</div>
+          )}
+
+          {!isLoading && !error && filteredForums.length === 0 && (
+            <div className="forum-state">
+              No subforums match your search yet.
             </div>
+          )}
 
-            )
-           
-})}
-          </dl>
+          {!isLoading &&
+            !error &&
+            filteredForums.map((forum) => (
+              <button
+                className="forum-card"
+                key={forum._id}
+                type="button"
+                onClick={() => openForum(forum._id)}
+              >
+                <span className="forum-card__icon">
+                  <ChatSquareText aria-hidden="true" />
+                </span>
 
+                <span className="forum-card__body">
+                  <strong>{forum.subforumName}</strong>
+                  <span>{forum.description}</span>
+                </span>
+
+                <span className="forum-card__action">
+                  <ArrowRight aria-hidden="true" />
+                </span>
+              </button>
+            ))}
         </div>
-      </div>
-      <div id="sidebar-wrapper">
-        <div id="sidebar">
-          <h3>Forum Rules</h3>
-          <ul id="mobile-respons" >
-            <li>Spamming is not allowed.</li>
-            <li>Be respectful towards other forum members.</li>
-            <li>Don’t be offensive, abusive or cause harassment.</li>
-            <li>Do not post content that is unsafe for work.</li>
-            <li>This includes sexual, hateful, racist, homophobic, sexist, provocative or vulgar content.</li>
+      </section>
 
-          </ul>
-          
+      <aside className="forum-sidebar" aria-label="Forum rules">
+        <div className="forum-sidebar__header">
+          <span>
+            <ShieldCheck aria-hidden="true" />
+          </span>
+          <div>
+            <p>House rules</p>
+            <h2>Keep it clean</h2>
+          </div>
         </div>
-      </div>
 
- 
+        <ul className="forum-rules">
+          {forumRules.map((rule) => (
+            <li key={rule}>{rule}</li>
+          ))}
+        </ul>
 
-   
-     
-   
-      
+        <div className="forum-sidebar__note">
+          <strong>Quick tip</strong>
+          <p>
+            Start broad, then search when you know what you want. The best
+            threads are usually hiding in plain sight.
+          </p>
+        </div>
+      </aside>
+    </main>
+  );
+};
 
-
-    </div>
-    </>
-
-}
 export default Subforum;

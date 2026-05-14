@@ -9,6 +9,7 @@ import {useState} from 'react';
 import {api,endpoints} from '../../../Lib/Api'
 import { getHeaderStructore } from '../../../Lib/helpers/helpers';
 import Header from '../Header/Header'
+import "./WithEditor.css";
 
 const WithEditor = () =>{
     const navigate = useNavigate();
@@ -69,22 +70,22 @@ const WithEditor = () =>{
   
         }
       }
-      return( 
+      return(
         <>
         <Header />
-          <div className="App">
-    <div className="container">
-      <div className="row"> 
+          <div className="editor-shell">
+    <div className="editor-card">
+      <div className="row">
         <form onSubmit={addDetails} className="update__forms">
-          <h3 className="myaccount-content"> Add  </h3>
+          <h3 className="myaccount-content">Create post</h3>
           <div className="form-row">
             <div className="form-group col-md-12">
-              <label className="font-weight-bold"> Title <span className="required"> * </span> </label>
+              <label className="font-weight-bold">Title <span className="required"> * </span> </label>
               <input type="text" name="title" value={userInfo.title} onChange={onChangeValue}  className="form-control" placeholder="Title" required />
             </div>
             <div className="form-group col-md-12 editor">
-              <label className="font-weight-bold"> Description <span className="required"> * </span> </label>
-                <Editor 
+              <label className="font-weight-bold">Content <span className="required"> * </span> </label>
+                <Editor
                   editorState={description}
                   toolbarClassName="toolbarClassName"
                   wrapperClassName="wrapperClassName"
@@ -99,9 +100,9 @@ const WithEditor = () =>{
             </div>
             {isError !== null && <div className="errors"> {isError} </div>}
             <div className="form-group col-sm-12 text-right">
-              <button type="submit" className="btn btn__theme"> Submit  </button>
-            </div> 
-          </div> 
+              <button type="submit" className="btn btn__theme">Publish</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>

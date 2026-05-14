@@ -1,9 +1,15 @@
-.reply-fix{
-    display:flex;
-    flex-direction: column;
-    margin-left:5%;
+.reply-fix {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+  max-width: 520px;
 }
-.button-reply{
-    width:20%;
-    margin-left:2%;
+
+.reply-editor {
+  width: 100%;
+  min-height: 84px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  resize: vertical;
 }
