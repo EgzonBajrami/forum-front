@@ -1,19 +1,13 @@
-import {useSelector} from 'react-redux'
-import {Navigate} from 'react-router-dom'
-const PrivateRoutes =({role,children}) =>{
-    const auth = useSelector((state)=>state.auth.data);
- 
-   if(!auth){
-    return <Navigate to='/login' />;
-    
-   }
-   
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+const PrivateRoutes = ({ role, children }) => {
+  const auth = useSelector((state) => state.auth.data);
 
-  return (
-    <div className={role}>
-      {children}
-    </div>
-  )
-}
+  if (!auth) {
+    return <Navigate to="/login" />;
+  }
 
-export default PrivateRoutes
+  return <div className={role}>{children}</div>;
+};
+
+export default PrivateRoutes;

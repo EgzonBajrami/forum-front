@@ -23,13 +23,17 @@ const ResetPassword = () =>{
       headers: getHeaderStructore(token),
       data,
     }
-    const result = await api.call(endpoints.resetPassword, config)
-    if (!result.success) {
-      setMessage(result.data)
-      return
+    try {
+      const result = await api.call(endpoints.resetPassword, config)
+      if (!result.success) {
+        setMessage(result.data)
+        return
+      }
+      setVariant('success')
+      setMessage('Your password has been successfully changed!')
+    } catch (error) {
+      setMessage('Failed to reset password.')
     }
-    setVariant('success')
-    setMessage('Your password has been successfully changed!')
   }
 
   return (

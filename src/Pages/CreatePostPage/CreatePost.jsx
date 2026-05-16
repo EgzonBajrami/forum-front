@@ -30,7 +30,6 @@ const CreatePost = () => {
     params: [location.state.subforum],
   };
 
-  console.log(location.state);
 
   const handleTitle = (e) => {
     e.preventDefault();
@@ -42,26 +41,27 @@ const CreatePost = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const editConfig = { ...config };
-    const createData = [title, content, img];
-    editConfig.data = createData;
-    const result = await api.call(endpoints.createPost, editConfig);
-    console.log(result);
-    if (result.success) {
-      setVariant("success");
-      setMessage("Post has been successfully created!");
-      setTimeout(() => {
-        navigate(`/subforums/${result.data.subforum}/post/${result.data._id}`);
-      }, 3000);
-    }
-    if (!result.success) {
-      console.log("failed");
+    try {
+      const editConfig = { ...config };
+      const createData = [title, content, img];
+      editConfig.data = createData;
+      const result = await api.call(endpoints.createPost, editConfig);
+      if (result.success) {
+        setVariant("success");
+        setMessage("Post has been successfully created!");
+        setTimeout(() => {
+          navigate(`/subforums/${result.data.subforum}/post/${result.data._id}`);
+        }, 3000);
+        return;
+      }
       setVariant("danger");
       setMessage(result.data);
       setTimeout(() => {
-        console.log(result);
         setVariant("");
       }, 3000);
+    } catch (error) {
+      setVariant("danger");
+      setMessage("Failed to create post.");
     }
   };
   const handleImg = async (e) => {
@@ -123,3 +123,4 @@ const CreatePost = () => {
   );
 };
 export default CreatePost;
+

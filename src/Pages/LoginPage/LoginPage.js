@@ -43,8 +43,6 @@ const LoginPage = () => {
   const [message,setMessage] = useState();
 
   const d= useDispatch();
-  const [logged,setLogged] = useState(false);
-
     const navigate = useNavigate();
    
   const [formState, dispatch] = useReducer(formReducer, {
@@ -74,36 +72,28 @@ const LoginPage = () => {
     event.preventDefault();
     const email = formState.inputs.Email.value;
     const password = formState.inputs.Password.value;
-
-    const result = await axios.post('http://127.0.0.1:4000/login',{
-      email:email,
-      password:password
-    }
-    
-    );
-   
-    console.log(result.data);
-    axios.defaults.headers.common['Authorization'] =`Bearer ${result.data.data}`
-   if(result.data.success){
-    const res = result.data.data;
-    setLogged(true);
-    setVariant('success');
-    setMessage('Successfully logged in!')
-
-    
-    
- 
-    d(login(res));
-    setTimeout(()=>{
-      navigate('/');
-    },3000);
-
-    
-   }
-     if(logged){
+    try {
+      const result = await axios.post('http://127.0.0.1:4000/login',{
+        email:email,
+        password:password
+      });
+      axios.defaults.headers.common['Authorization'] =`Bearer ${result.data.data}`
+      if(result.data.success){
+        const res = result.data.data;
+        setVariant('success');
+        setMessage('Successfully logged in!')
+        d(login(res));
+        setTimeout(()=>{
+          navigate('/');
+        },3000);
+        return;
+      }
       setVariant('danger');
       setMessage('Please check your email or password!');
-     }
+    } catch (error) {
+      setVariant('danger');
+      setMessage('Please check your email or password!');
+    }
   };
   const clickHandler = (e)=>{
     e.preventDefault();
@@ -151,3 +141,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

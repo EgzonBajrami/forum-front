@@ -17,46 +17,87 @@ const Dashboard = () => {
   const [subforum, setSubForum] = useState("");
   const [icon, setIcon] = useState("");
   const [description, setDescription] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const config = {
     headers: getHeaderStructore(auth.token),
   };
 
+  const getErrorMessage = (error, fallbackMessage) =>
+    error?.response?.data?.message || error?.message || fallbackMessage;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const editConfig = {
-      headers: getHeaderStructore(auth.token),
-      params: [username],
-    };
-    const result = await api.call(endpoints.findUser, editConfig);
-    setUser(result.data);
+    setErrorMessage("");
+    setResponseMessage("");
+    try {
+      const editConfig = {
+        headers: getHeaderStructore(auth.token),
+        params: [username],
+      };
+      const result = await api.call(endpoints.findUser, editConfig);
+      setUser(result.data);
+      setResponseMessage("User search completed.");
+    } catch (error) {
+      setUser([]);
+      setErrorMessage(getErrorMessage(error, "Failed to search for user."));
+    }
   };
 
   const removeUser = async (e) => {
     e.preventDefault();
-    const editConfig = {
-      headers: getHeaderStructore(auth.token),
-      params: [e.currentTarget.id],
-    };
-    await api.call(endpoints.removeUser, editConfig);
+    setErrorMessage("");
+    setResponseMessage("");
+    try {
+      const editConfig = {
+        headers: getHeaderStructore(auth.token),
+        params: [e.currentTarget.id],
+      };
+      await api.call(endpoints.removeUser, editConfig);
+      setUser((prevUsers) =>
+        prevUsers.filter((elem) => elem._id !== e.currentTarget.id),
+      );
+      setResponseMessage("User removed successfully.");
+    } catch (error) {
+      setErrorMessage(getErrorMessage(error, "Failed to remove user."));
+    }
   };
 
   const createSub = async (e) => {
     e.preventDefault();
-    const editConfig = { ...config };
-    editConfig.data = { subforum, description, icon };
-    await api.call(endpoints.createSub, editConfig);
+    setErrorMessage("");
+    setResponseMessage("");
+    try {
+      const editConfig = { ...config };
+      editConfig.data = { subforum, description, icon };
+      await api.call(endpoints.createSub, editConfig);
+      setResponseMessage("Subforum created successfully.");
+    } catch (error) {
+      setErrorMessage(getErrorMessage(error, "Failed to create subforum."));
+    }
   };
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const editConfig = {
-      headers: getHeaderStructore(auth.token),
-      params: [subforum],
-    };
-    const result = await api.call(endpoints.findSubByName, editConfig);
-    const subId = result.data[0]._id;
-    navigate(`/editSub/${subId}`, { state: { name: result } });
+    setErrorMessage("");
+    setResponseMessage("");
+    try {
+      const editConfig = {
+        headers: getHeaderStructore(auth.token),
+        params: [subforum],
+      };
+      const result = await api.call(endpoints.findSubByName, editConfig);
+      if (!result.data?.length) {
+        setErrorMessage("No subforum found with that name.");
+        return;
+      }
+      const subId = result.data[0]._id;
+      setResponseMessage("Subforum found. Opening editor...");
+      navigate(`/editSub/${subId}`, { state: { name: result } });
+    } catch (error) {
+      setErrorMessage(getErrorMessage(error, "Failed to find subforum."));
+    }
   };
 
   return (
@@ -127,6 +168,9 @@ const Dashboard = () => {
             </Form>
           </article>
         </section>
+
+        {responseMessage && <p>{responseMessage}</p>}
+        {errorMessage && <p>{errorMessage}</p>}
 
         <section className="dashboard-users">
           <article className="dashboard-card">

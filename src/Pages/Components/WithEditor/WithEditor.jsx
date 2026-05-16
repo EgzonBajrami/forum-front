@@ -51,11 +51,8 @@ const WithEditor = () =>{
           }
           const editConfig = {...config};
           const createData = [userInfo.title,userInfo.description.value];
-          console.log(userInfo.title);
-          console.log(userInfo.description.value)
           editConfig.data = createData;
           const result = await api.call(endpoints.createPost,editConfig);
-          console.log(result);
           if(result.success){ 
   
             setTimeout(()=>{
@@ -111,3 +108,4 @@ const WithEditor = () =>{
        )
 }
 export default WithEditor;
+

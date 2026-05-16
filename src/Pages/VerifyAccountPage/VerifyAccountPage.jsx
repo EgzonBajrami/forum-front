@@ -11,16 +11,19 @@ const VerifyAccountPage = () =>{
         const verifyAccount = async() =>{
             if(location.search){
                 const params = new URLSearchParams(location.search);
-                console.log(location);
                 const token = params.get('token');
-                console.log(token);
                 const config ={
                     headers: getHeaderStructore(token)
                 }
-                const result = await api.call(endpoints.verifyAccount,config);
-                setSuccess(result.success);
-                if(!result.success){
-                    setErrormessage(result.data);
+                try {
+                    const result = await api.call(endpoints.verifyAccount,config);
+                    setSuccess(result.success);
+                    if(!result.success){
+                        setErrormessage(result.data);
+                    }
+                } catch (error) {
+                    setSuccess(false);
+                    setErrormessage('Verification failed.');
                 }
             }
         }

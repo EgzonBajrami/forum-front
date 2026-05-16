@@ -12,15 +12,19 @@ const ForgotPassword = () => {
       const config = {
         data,
       }
-      const result = await api.call(endpoints.forgotPassword, config)
-      if (!result.success) {
+      try {
+        const result = await api.call(endpoints.forgotPassword, config)
+        if (!result.success) {
+          setVariant('danger');
+          setMessage([result.data])
+          return
+        }
+        setVariant('success')
+        setMessage('An email was sent to you with further instructions!')
+      } catch (error) {
         setVariant('danger');
-        setMessage([result.data])
-        return
+        setMessage('Could not process forgot password request.')
       }
-  
-      setVariant('success')
-      setMessage('An email was sent to you with further instructions!')
     }
   
     return (

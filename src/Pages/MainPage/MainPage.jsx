@@ -4,7 +4,6 @@ import {useSelector} from 'react-redux';
 import { useEffect } from 'react';
 const MainPage = () =>{ 
   const auth = useSelector((state)=>state.auth.data);
-    console.log(auth);
     const navigate = useNavigate();
    
     useEffect(()=>{

@@ -50,11 +50,8 @@ const Header = () => {
     const getUserNotific = async () => {
       try {
         const result = await api.call(endpoints.getUserNotifications, config);
-
-        console.log(result);
-      } catch (err) {
-        console.error(err);
-      }
+        console.log("result", result);
+      } catch (err) {}
     };
 
     getUserNotific();
@@ -67,7 +64,6 @@ const Header = () => {
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
-    console.log("Clicked me");
   };
 
   const navigateHandler = (e) => {
@@ -87,7 +83,7 @@ const Header = () => {
         variant="dark"
       >
         <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand href="/home">
             <img
               className="navImage"
               alt="logo"
@@ -103,7 +99,7 @@ const Header = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             {auth ? (
               <Nav className="me-auto">
-                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/home">Home</Nav.Link>
                 <Nav.Link onClick={handleClick}>Log out</Nav.Link>
               </Nav>
             ) : (

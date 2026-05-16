@@ -47,7 +47,6 @@ const VerticalModal = (props) => {
 
         setNotifications(result.data || []);
       } catch (err) {
-        console.error(err);
       }
     };
 
@@ -69,7 +68,6 @@ const VerticalModal = (props) => {
 
       props.onHide();
     } catch (err) {
-      console.error(err);
     }
   };
 
@@ -83,7 +81,6 @@ const VerticalModal = (props) => {
 
       setNotifications([]);
     } catch (err) {
-      console.error(err);
     }
   };
 
@@ -128,3 +125,4 @@ const VerticalModal = (props) => {
 };
 
 export default VerticalModal;
+

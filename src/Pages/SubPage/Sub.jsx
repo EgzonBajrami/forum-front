@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { Component, useEffect, useState, useMemo } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,11 +9,39 @@ import { useSelector } from "react-redux";
 import Header from "../Components/Header/Header";
 import "./Sub.css";
 
-const Sub = () => {
+class SubErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error) {
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <>
+          <Header />
+          <div className="subcontent">
+            <p>Something went wrong while loading this subforum page.</p>
+          </div>
+        </>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+const SubContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const sub = location.pathname.split("/")[2];
-  console.log(sub);
   const auth = useSelector((state) => state.auth.data);
   const config = useMemo(() => {
     return {
@@ -23,28 +51,53 @@ const Sub = () => {
   }, [auth, sub]);
 
   const [currentSub, setCurrentSub] = useState();
-
   const [postArray, setPostArray] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
+    let isMounted = true;
+
     const getSub = async () => {
-      const result = await api.call(endpoints.getForumPosts, config);
-      console.log(result.data);
-      setCurrentSub([result.data]);
-    };
-    const getForum = async () => {
-      const result = await api.call(endpoints.getSubPosts, config);
-      console.log(result);
-      setPostArray(result.data);
+      setIsLoading(true);
+      setErrorMessage("");
+      try {
+        const subResult = await api.call(endpoints.getForumPosts, config);
+
+        if (!isMounted) {
+          return;
+        }
+
+        const subData = subResult?.data;
+
+        setCurrentSub(subData ? [subData] : []);
+        setPostArray(Array.isArray(subData?.posts) ? subData.posts : []);
+      } catch (error) {
+        if (!isMounted) {
+          return;
+        }
+
+        setCurrentSub([]);
+        setPostArray([]);
+        setErrorMessage(
+          error?.response?.data?.message ||
+            error?.message ||
+            "Unable to load subforum data. Please try again.",
+        );
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
     };
 
     getSub();
-    getForum();
-  }, [config]);
 
-  console.log(currentSub);
-
-  console.log(postArray);
+    return () => {
+      isMounted = false;
+    };
+  }, [config, reloadKey]);
 
   const createPostHandler = (e) => {
     e.preventDefault();
@@ -56,9 +109,26 @@ const Sub = () => {
   return (
     <>
       <Header />
+      {isLoading && (
+        <div className="subcontent">
+          <p>Loading subforum...</p>
+        </div>
+      )}
+      {errorMessage && (
+        <div className="subcontent">
+          <p>{errorMessage}</p>
+          <button
+            type="button"
+            className="button-noremove"
+            onClick={() => setReloadKey((prev) => prev + 1)}
+          >
+            Try again
+          </button>
+        </div>
+      )}
 
       <div className="subheader">
-        {currentSub && (
+        {!isLoading && !errorMessage && currentSub?.length > 0 && (
           <ul className="subUl">
             <h3>
               {currentSub[0].subforumName}
@@ -69,18 +139,21 @@ const Sub = () => {
           </ul>
         )}
       </div>
-      {currentSub && (
+      {!isLoading && !errorMessage && currentSub?.length > 0 && (
         <div className="add-post" onClick={createPostHandler}>
           <FontAwesomeIcon size="lg" icon={faPlus} />
           <h4>Create a new post</h4>
         </div>
       )}
-      {currentSub && (
+      {!isLoading && !errorMessage && currentSub?.length > 0 && (
         <div className="subcontent">
           {postArray &&
             postArray.map((elem) => {
               return (
-                <Link to={{ pathname: `/subforums/${sub}/post/${elem._id}` }}>
+                <Link
+                  key={elem._id}
+                  to={{ pathname: `/subforums/${sub}/post/${elem._id}` }}
+                >
                   {elem.author && (
                     <div className="posts">
                       <div className="contains-image">
@@ -121,4 +194,12 @@ const Sub = () => {
     </>
   );
 };
+
+const Sub = () => (
+  <SubErrorBoundary>
+    <SubContent />
+  </SubErrorBoundary>
+);
+
 export default Sub;
+

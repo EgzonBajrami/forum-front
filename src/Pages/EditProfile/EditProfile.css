@@ -1,0 +1,120 @@
+.edit-profile-shell {
+  --bg-start: #f4f8fb;
+  --bg-end: #e7eff7;
+  --text-main: #12263a;
+  --text-soft: #52657a;
+  --line: #d5dfeb;
+  --brand: #0e7490;
+  --brand-hover: #0b5f76;
+  min-height: calc(100vh - 72px);
+  padding: 2.5rem 1rem;
+  background: radial-gradient(circle at top right, #ffffff 0%, transparent 45%),
+    linear-gradient(140deg, var(--bg-start), var(--bg-end));
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.edit-profile-card {
+  width: min(760px, 100%);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(14, 25, 35, 0.08);
+  padding: 1.75rem;
+}
+
+.edit-profile-header {
+  margin-bottom: 1.25rem;
+}
+
+.edit-profile-kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.edit-profile-header h1 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+}
+
+.edit-profile-header span {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--text-soft);
+}
+
+.edit-profile-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.edit-profile-group .form-label {
+  margin-bottom: 0.2rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.edit-profile-group .form-control {
+  border-radius: 10px;
+  border: 1px solid #c9d6e3;
+  padding: 0.7rem 0.85rem;
+}
+
+.edit-profile-group .form-control:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 0.2rem rgba(14, 116, 144, 0.15);
+}
+
+.avatar-preview-wrap {
+  margin-top: 0.35rem;
+}
+
+.avatar-preview-image {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #d5dfeb;
+}
+
+.edit-profile-error {
+  color: #b91c1c;
+  margin: 0.75rem 0 0;
+}
+
+.edit-profile-success {
+  color: #166534;
+  margin: 0.75rem 0 0;
+}
+
+.edit-profile-button {
+  margin-top: 0.9rem;
+  background: var(--brand);
+  border: 1px solid var(--brand);
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+}
+
+.edit-profile-button:hover,
+.edit-profile-button:focus {
+  background: var(--brand-hover);
+  border-color: var(--brand-hover);
+}
+
+@media (max-width: 768px) {
+  .edit-profile-shell {
+    padding: 1.1rem 0.75rem;
+  }
+
+  .edit-profile-card {
+    padding: 1.1rem;
+    border-radius: 12px;
+  }
+}

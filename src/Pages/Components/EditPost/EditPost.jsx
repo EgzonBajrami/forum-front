@@ -31,16 +31,16 @@ const EditPost = () => {
   );
   useEffect(() => {
     const getPost = async () => {
-      const result = await api.call(endpoints.getPost, config);
-
-      setPost([result.data]);
+      try {
+        const result = await api.call(endpoints.getPost, config);
+        setPost([result.data]);
+      } catch (error) {
+        setPost([]);
+      }
     };
     getPost();
   }, [config]);
-  console.log(post);
-  console.log(location.state);
   const sub = location.state.locationPost[0].subforum;
-  console.log(sub);
   const pid = location.state.locationPost[0]._id;
 
   const handleTitle = (e) => {
@@ -56,18 +56,20 @@ const EditPost = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const editConfig = { ...config };
-    const postData = [title, content, img];
-    editConfig.data = postData;
-    const result = await api.call(endpoints.editPost, editConfig);
-    setVariant("success");
-    setMessage("Your post has been edited!");
-
-    setTimeout(() => {
-      console.log(result);
-      navigate(`/subforums/${sub}/post/${pid}`);
-    }, 3000);
+    try {
+      const editConfig = { ...config };
+      const postData = [title, content, img];
+      editConfig.data = postData;
+      await api.call(endpoints.editPost, editConfig);
+      setVariant("success");
+      setMessage("Your post has been edited!");
+      setTimeout(() => {
+        navigate(`/subforums/${sub}/post/${pid}`);
+      }, 3000);
+    } catch (error) {
+      setVariant("danger");
+      setMessage("Failed to edit post.");
+    }
   };
   return (
     <>

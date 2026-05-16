@@ -64,31 +64,31 @@ const Register = () => {
 
   async function placeSubmitHandler(event) {
     event.preventDefault();
-    console.log(formState.inputs);
     const email = formState.inputs.Email.value;
-    console.log(email);
     const firstName = formState.inputs.FirstName.value;
     const lastName = formState.inputs.LastName.value;
     const username = formState.inputs.NickName.value;
     const password = formState.inputs.Password.value;
-    console.log(password);
     const age = formState.inputs.Age.value;
-    const result = await axios.post("http://127.0.0.1:4000/register", {
-      email,
-      firstName,
-      lastName,
-      username,
-      password,
-      age,
-    });
-    console.log(result);
-    console.log(result.status);
-    if (result.status === 200) {
-      setVariant("success");
-      setMessage(
-        "Successfully registered in, please check your email for verification.",
-      );
-    } else {
+    try {
+      const result = await axios.post("http://127.0.0.1:4000/register", {
+        email,
+        firstName,
+        lastName,
+        username,
+        password,
+        age,
+      });
+      if (result.status === 200) {
+        setVariant("success");
+        setMessage(
+          "Successfully registered in, please check your email for verification.",
+        );
+      } else {
+        setVariant("danger");
+        setMessage("Something went wrong");
+      }
+    } catch (error) {
       setVariant("danger");
       setMessage("Something went wrong");
     }
@@ -178,3 +178,4 @@ const Register = () => {
 };
 
 export default Register;
+

@@ -17,14 +17,16 @@ const ProfilePosts = ({userId}) =>{
     },[auth,userId])
     useEffect(()=>{
       const getUserPosts = async() =>{
-        const result = await api.call(endpoints.getUserPosts,config);
-       
-        setPosts(result.data)
+        try {
+          const result = await api.call(endpoints.getUserPosts,config);
+          setPosts(result.data)
+        } catch (error) {
+          setPosts([]);
+        }
       }
       getUserPosts();
 
     },[config])
-    console.log(posts);
  return <>
  <Table striped bordered hover>
       <thead>
