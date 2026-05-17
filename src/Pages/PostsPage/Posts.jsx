@@ -40,6 +40,7 @@ const Posts = () => {
         const result = await axios.get(
           `http://127.0.0.1:4000/posts/${requestedPostId}`,
         );
+        console.log("result", result);
         setPost([result.data.data]);
         if (result.data.data.upvotedBy.includes(decoded._id)) {
           setHeart(true);
@@ -47,9 +48,7 @@ const Posts = () => {
         if (result.data.data.imageSubmission.length > 0) {
           setImg(result.data.data.imageSubmission + ".jpg");
         }
-      } catch (error) {
-        setPost([]);
-      }
+      } catch (error) {}
     };
     getPost();
   }, [config, decoded._id, requestedPostId]);
@@ -105,6 +104,7 @@ const Posts = () => {
     setShowActions(!showActions);
   };
 
+  console.log("post", post);
   console.log("heart", heart);
 
   return (

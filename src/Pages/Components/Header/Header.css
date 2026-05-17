@@ -12,8 +12,9 @@
 }
 
 .navImage {
-  width: 88px;
+  width: 120px;
   border-radius: 8px;
+  height: auto;
 }
 
 .color-navbar .nav-link {
